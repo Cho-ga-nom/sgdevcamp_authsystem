@@ -1,16 +1,31 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User } from 'src/entities/user.entity';
+//import { User } from 'src/entities/user.entity';
 import { CreateUserDTO } from './dto/createUser.dto';
+
+export type User = any;
 
 @Injectable()
 export class UserService {
-  constructor(
-    @InjectRepository(User) private userRepo: Repository<User>
-  ) {}
+  private readonly users = [
+    {
+      userId: 1,
+      username: 'john',
+      password: 'changeme',
+    },
+    {
+      userId: 2,
+      username: 'maria',
+      password: 'guess',
+    },
+  ];
 
-  // 회원가입
+  async findOne(username: string): Promise<User | undefined> {
+    return this.users.find(user => user.username === username);
+  }
+
+  /* 회원가입
   async createUser(createUserDTO: CreateUserDTO) {
     try {
       const newUser = new User();
@@ -24,9 +39,9 @@ export class UserService {
     } catch (err) {
       throw new NotFoundException('오류가 발생하였습니다.');
     }
-  }
+  } */
 
-  // 로그인
+  /* 로그인
   async checkUser(email: string): Promise<User | any> {
     try {
       const user = await this.userRepo.findOne({
@@ -41,5 +56,5 @@ export class UserService {
     } catch (err) {
       throw new NotFoundException('오류가 발생하였습니다.');
     }
-  }
+  } */
 }
