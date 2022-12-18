@@ -1,32 +1,34 @@
-import { Injectable } from '@nestjs/common';
-
-export type User = any;
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm/dist';
+import { User } from 'src/entities/user.entity';
+import { Repository } from 'typeorm';
+import { CreateUserDTO } from './dto/createUser.dto';
 
 @Injectable()
 export class UsersService {
-  private readonly users: User[];
+  constructor(
+    @InjectRepository(User) private userRepo: Repository<User>
+  ) {}
 
-  constructor() {
-    this.users = [
-      {
-        userId: 1,
-        username: 'john',
-        password: 'changeme',
-      },
-      {
-        userId: 2,
-        username: 'chris',
-        password: 'secret',
-      },
-      {
-        userId: 3,
-        username: 'maria',
-        password: 'guess',
-      },
-    ];
+  async createUser(createUserDTO: CreateUserDTO) {
+    try {
+      const newUser = new User();
+
+      newUser.email = createUserDTO.email;
+      newUser.password = createUserDTO.password;
+      newUser.nickname = createUserDTO.nickname
+
+      await this.userRepo.insert(newUser);
+      return { msg: 'success', successMsg: '회원가입 성공' };
+    } catch (err) {
+      throw new NotFoundException('회원가입 실패');
+    }
   }
 
-  async findOne(username: string): Promise<User | undefined> {
-    return this.users.find(user => user.username === username);
+  async findUser(email: string): Promise<User> {
+    const user = await this.userRepo.findOne({
+      where: { email },
+    });
+    return user;
   }
 }
