@@ -25,7 +25,7 @@ export class UsersService {
     }
   }
 
-  async findUser(email: string): Promise<User> {
+  async findUser(email: string): Promise<User | undefined> {
     const user = await this.userRepo.findOne({
       where: { email },
     });

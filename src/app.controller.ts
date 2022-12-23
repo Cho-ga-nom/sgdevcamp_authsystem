@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Param, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
 import { Body } from '@nestjs/common/decorators';
 import { AuthService } from './auth/auth.service';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
@@ -10,8 +10,8 @@ import { UsersService } from './users/users.service';
 @Controller()
 export class AppController {
   constructor(
+    private readonly userService: UsersService,
     private readonly authService: AuthService,
-    private readonly userService: UsersService
     ) {}
 
   @Post('signup')
@@ -20,14 +20,14 @@ export class AppController {
   }
 
   @UseGuards(LocalAuthGuard)
-  @Post('auth/login')
-  async login(@Body() loginDTO: LoginDTO) {
-    return this.authService.login(loginDTO);
+  @Post('login')
+  async login(@Req() req) {
+    return this.authService.login(req.user);
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get('profile/:email')
-  getProfile(@Param('email') email: string) {
-    return this.userService.findUser(email);
+  @Get('profile')
+  getProfile(@Req() req) {
+    return req.user;
   }
 }

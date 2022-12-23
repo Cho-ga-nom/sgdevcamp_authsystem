@@ -1,13 +1,16 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { JwtService } from '@nestjs/jwt/dist';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
+import { AuthService } from './auth/auth.service';
 import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
+    AuthModule, 
+    UsersModule,
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot({
       type: 'postgres',
@@ -18,9 +21,7 @@ import { UsersModule } from './users/users.module';
       database: process.env.POSTGRES_DATABASE,
       autoLoadEntities: true,
       synchronize: true,
-    }),
-    AuthModule, UsersModule],
+    })],
   controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}
