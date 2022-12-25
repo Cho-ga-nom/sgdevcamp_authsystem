@@ -13,6 +13,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
     });
   }
 
+  // 로그인 미들웨어
   async validate(email: string, password: string): Promise<any> {
     const payload: LoginDTO = { email, password };
     const user = await this.authService.validateUser(payload);

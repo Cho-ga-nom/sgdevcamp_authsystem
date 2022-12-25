@@ -1,17 +1,16 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { JwtService } from '@nestjs/jwt/dist';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AuthModule } from './auth/auth.module';
-import { AuthService } from './auth/auth.service';
 import { UsersModule } from './users/users.module';
+import { CacheDbModule } from './cache-db/cache-db.module';
 
 @Module({
   imports: [
     AuthModule, 
     UsersModule,
-    ConfigModule.forRoot({ isGlobal: true }),
+    ConfigModule.forRoot({ isGlobal: true }),           // postgreSQL 연결
     TypeOrmModule.forRoot({
       type: 'postgres',
       host : process.env.POSTGRES_HOST,
@@ -21,7 +20,8 @@ import { UsersModule } from './users/users.module';
       database: process.env.POSTGRES_DATABASE,
       autoLoadEntities: true,
       synchronize: true,
-    })],
+    }),
+    CacheDbModule],
   controllers: [AppController],
 })
 export class AppModule {}

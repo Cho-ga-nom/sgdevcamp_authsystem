@@ -1,10 +1,10 @@
 import { Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
-import { Body } from '@nestjs/common/decorators';
+import { Body, Param, Patch } from '@nestjs/common/decorators';
 import { AuthService } from './auth/auth.service';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 import { LocalAuthGuard } from './auth/guards/local-auth.guard';
+import { ChangeUserDTO } from './users/dto/changeUser.dto';
 import { CreateUserDTO } from './users/dto/createUser.dto';
-import { LoginDTO } from './users/dto/login.dto';
 import { UsersService } from './users/users.service';
 
 @Controller()
@@ -29,5 +29,10 @@ export class AppController {
   @Get('profile')
   getProfile(@Req() req) {
     return req.user;
+  }
+
+  @Patch('mypage/:email')
+  async changeUser(@Param('email') email: string, @Body() changeUserDTO: ChangeUserDTO) {
+    return await this.userService.changeUser(email, changeUserDTO);
   }
 }
