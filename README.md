@@ -26,6 +26,8 @@
 -----------------
 1. MSA 구조를 지향하며 만들었는데 제대로 적용한 건지 궁금합니다. MSA 구조가 아니라면 어떻게 해야하는지도 궁금합니다.
 2. 아래 코드에 @Patch를 사용하는 메소드가 있습니다.
+
+```
 import { Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
 import { Body, Param, Patch } from '@nestjs/common/decorators';
 import { AuthService } from './auth/auth.service';
@@ -64,3 +66,4 @@ export class AppController {
     return await this.userService.changeUser(email, changeUserDTO);
   }
 }
+```
