@@ -46,7 +46,7 @@ http.createServer(server).listen(3000);
 https.createServer(httpsOptions, server).listen(443);
 ```
 저 코드를 넣고 실행시키면 fs.readFileSync() 부분에서 디렉토리를 찾을 수 없다는 오류가 발생하는데 그 이유가 궁금합니다.
-
+***
 2. 인증을 수행할 때 쓰는 Guard는 라우팅 전에 작동하는 미들웨어로 알고 있습니다. 이 Guard를 사용하는 이유가 궁금합니다.
 ```
 @UseGuards(LocalAuthGuard)
@@ -55,6 +55,6 @@ https.createServer(httpsOptions, server).listen(443);
     return this.authService.login(req.user);
   }
 ```
-
+***
 3. Redis에 저장한 정보를 어떻게 사용해야하는지 궁금합니다. 
    지금은 Redis에서 찾은 값을 프론트엔드로 보내서 브라우저 쿠키에 이용하는 식으로 이해하고 있는데 이게 맞을까요?
