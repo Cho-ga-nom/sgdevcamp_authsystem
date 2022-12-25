@@ -25,4 +25,42 @@
 확인받고 싶은 부분
 -----------------
 1. MSA 구조를 지향하며 만들었는데 제대로 적용한 건지 궁금합니다. MSA 구조가 아니라면 어떻게 해야하는지도 궁금합니다.
-2. 
+2. 아래 코드에 @Patch를 사용하는 메소드가 있습니다.
+import { Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Param, Patch } from '@nestjs/common/decorators';
+import { AuthService } from './auth/auth.service';
+import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
+import { LocalAuthGuard } from './auth/guards/local-auth.guard';
+import { ChangeUserDTO } from './users/dto/changeUser.dto';
+import { CreateUserDTO } from './users/dto/createUser.dto';
+import { UsersService } from './users/users.service';
+
+@Controller()
+export class AppController {
+  constructor(
+    private readonly userService: UsersService,
+    private readonly authService: AuthService,
+    ) {}
+
+  @Post('signup')
+  async signup(@Body() createUserDTO: CreateUserDTO) {
+    return await this.userService.createUser(createUserDTO);
+  }
+
+  @UseGuards(LocalAuthGuard)
+  @Post('login')
+  async login(@Req() req) {
+    return this.authService.login(req.user);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('profile')
+  getProfile(@Req() req) {
+    return req.user;
+  }
+
+  @Patch('mypage/:email')
+  async changeUser(@Param('email') email: string, @Body() changeUserDTO: ChangeUserDTO) {
+    return await this.userService.changeUser(email, changeUserDTO);
+  }
+}
