@@ -12,7 +12,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  // 인증된 사용자의 정보 출력
+  // 토큰을 인증한 유저 정보를 api controller에게 req-user 형태로 전달
   async validate(payload: any) {
     return { email: payload.email, nickname: payload.nickname };
   }

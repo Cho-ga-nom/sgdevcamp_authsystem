@@ -1,6 +1,6 @@
 import { IsEmail, IsString } from 'class-validator';
 
-export class ChangeUserDTO {
+export class UpdatePlayerDTO {
   @IsString()
   nickname: string;
 

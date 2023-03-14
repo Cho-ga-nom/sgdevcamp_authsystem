@@ -5,9 +5,9 @@ import { Column,
 	UpdateDateColumn
 } from 'typeorm';
 
-@Entity('user')
+@Entity('player')
 @Index(['email'])
-export class User {
+export class Player {
   @PrimaryColumn({ type: 'varchar' })
   email: string;
 

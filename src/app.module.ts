@@ -3,13 +3,13 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AuthModule } from './auth/auth.module';
-import { UsersModule } from './users/users.module';
+import { PlayerModule } from './player/player.module';
 import { CacheDbModule } from './cache-db/cache-db.module';
 
 @Module({
   imports: [
     AuthModule, 
-    UsersModule,
+    PlayerModule,
     ConfigModule.forRoot({ isGlobal: true }),           // postgreSQL 연결
     TypeOrmModule.forRoot({
       type: 'postgres',

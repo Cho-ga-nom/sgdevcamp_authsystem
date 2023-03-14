@@ -2,8 +2,8 @@ import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt/dist';
 import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm/dist/typeorm.module';
-import { User } from 'src/entities/user.entity';
-import { UsersModule } from '../users/users.module';
+import { Player } from 'src/entities/player.entity';
+import { PlayerModule } from 'src/player/player.module';
 import { AuthService } from './auth.service';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { LocalStrategy } from './strategies/local.strategy';
@@ -11,8 +11,8 @@ import { ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User]),
-    UsersModule,
+    TypeOrmModule.forFeature([Player]),
+    PlayerModule,
     PassportModule,
     JwtModule.registerAsync({
       inject: [ConfigService],
